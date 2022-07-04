@@ -1,11 +1,20 @@
-import { StyleSheet, Text, SafeAreaView, Platform, StatusBar } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, Text, View, SafeAreaView, Platform, StatusBar } from 'react-native';
 import { colors } from './src/utils/colors';
 import { Focus } from './src/features/focus';
 
 export default function App() {
+  const [currentSubject, setCurrentSubject] = useState(null);
+
   return (
     <SafeAreaView style={styles.container}>
-      <Focus/>
+      {!currentSubject ? 
+        <Focus addSubject={setCurrentSubject}/>
+      :<View>
+        <Text style={styles.textStyle}>It shows the timer for {currentSubject}</Text>
+      </View>
+      }
+      
     </SafeAreaView>
   );
 }
@@ -15,5 +24,8 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     backgroundColor: colors.darkBlue
+  },
+  textStyle: {
+    color: '#fff'
   }
 });
