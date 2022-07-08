@@ -22,6 +22,13 @@ export const Timer = ({ focusSubject, clearSubject }) => {
   const [progress, setProgress] = useState(1);
   const [minutes, setMinutes] = useState(0.1);
 
+  const onEnd = (reset) => {
+    Vibration.vibrate(PATTERN);
+    setIsStarted(false);
+    setProgress(1);
+    reset();
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.countdown}>
@@ -29,9 +36,7 @@ export const Timer = ({ focusSubject, clearSubject }) => {
           minutes={minutes}
           isPaused={!isStarted}
           onProgress={setProgress}
-          onEnd={() => {
-            Vibration.vibrate(PATTERN);
-          }}
+          onEnd={onEnd}
         />
         <View style={{ paddingTop: spacing.xxl, paddingBottom: spacing.sm }}>
           <Text style={styles.title}>Focusing on:</Text>
@@ -86,10 +91,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  clearSubjectWrapper : {
+  clearSubjectWrapper: {
     flexDirection: "row",
-    justifyContent: "center"
-  },  
+    justifyContent: "center",
+  },
   title: {
     color: colors.white,
     fontWeight: "bold",
