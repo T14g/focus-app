@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Vibration } from "react-native";
 import { ProgressBar } from "react-native-paper";
 import { Countdown } from "../components/Countdown";
 import { RoundedButton } from "../components/RoundedButton";
+import { Timing } from "./Timing";
 import { colors } from "../utils/colors";
 import { spacing } from "../utils/sizes";
 
@@ -16,7 +17,7 @@ const PATTERN = [
   1 * ONE_SECOND_IN_MS,
 ];
 
-export const Timer = ({ focusSubject }) => {
+export const Timer = ({ focusSubject, clearSubject }) => {
   const [isStarted, setIsStarted] = useState(false);
   const [progress, setProgress] = useState(1);
   const [minutes, setMinutes] = useState(0.1);
@@ -32,7 +33,7 @@ export const Timer = ({ focusSubject }) => {
             Vibration.vibrate(PATTERN);
           }}
         />
-        <View style={{ paddingTop: spacing.xxl }}>
+        <View style={{ paddingTop: spacing.xxl, paddingBottom: spacing.sm }}>
           <Text style={styles.title}>Focusing on:</Text>
           <Text style={styles.task}>{focusSubject}</Text>
         </View>
@@ -44,6 +45,9 @@ export const Timer = ({ focusSubject }) => {
           style={{ height: spacing.sm }}
         />
       </View>
+      <View style={styles.timingWrapper}>
+        <Timing onChangeTime={setMinutes} />
+      </View>
       <View style={styles.buttonWrapper}>
         {!isStarted && (
           <RoundedButton title="Start" onPress={() => setIsStarted(true)} />
@@ -51,6 +55,9 @@ export const Timer = ({ focusSubject }) => {
         {isStarted && (
           <RoundedButton title="Pause" onPress={() => setIsStarted(false)} />
         )}
+      </View>
+      <View style={styles.clearSubjectWrapper}>
+        <RoundedButton size={50} title="-" onPress={clearSubject} />
       </View>
     </View>
   );
@@ -61,17 +68,28 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   countdown: {
-    flex: 0.5,
+    flex: 0.4,
     alignItems: "center",
     justifyContent: "center",
+    marginTop: spacing.xxl,
+  },
+  timingWrapper: {
+    flex: 0.1,
+    alignItems: "center",
+    flexDirection: "row",
+    padding: spacing.lg,
   },
   buttonWrapper: {
     flex: 0.3,
     flexDiretion: "row",
-    padding: 15,
+    padding: spacing.md,
     justifyContent: "center",
     alignItems: "center",
   },
+  clearSubjectWrapper : {
+    flexDirection: "row",
+    justifyContent: "center"
+  },  
   title: {
     color: colors.white,
     fontWeight: "bold",
