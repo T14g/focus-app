@@ -10,20 +10,25 @@ import {
 import { colors } from "./src/utils/colors";
 import { Focus } from "./src/features/Focus";
 import { Timer } from "./src/features/Timer";
+import { FocusHistory } from "./src/features/FocusHistory";
 
 export default function App() {
-  const [currentSubject, setCurrentSubject] = useState('teste');
+  const [currentSubject, setCurrentSubject] = useState("teste");
+  const [history, setHistory] = useState([]);
 
   return (
     <SafeAreaView style={styles.container}>
       {!currentSubject ? (
-        <Focus addSubject={setCurrentSubject} />
+        <>
+          <Focus addSubject={setCurrentSubject} />
+          <FocusHistory history={history} />
+        </>
       ) : (
-        <View style={styles.viewTimer}> 
+        <View style={styles.viewTimer}>
           <Timer
             focusSubject={currentSubject}
-            onTimerEnd={() => {}}
             clearSubject={() => setCurrentSubject(null)}
+            onTimerEnd={(subject) => setHistory([...history, subject])}
           />
         </View>
       )}
@@ -37,9 +42,9 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     backgroundColor: colors.darkBlue,
   },
-  viewTimer : {
-    flex: 1
-  },  
+  viewTimer: {
+    flex: 1,
+  },
   textStyle: {
     color: "#fff",
   },
