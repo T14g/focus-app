@@ -1,4 +1,4 @@
-# Focus App
+# Focus App 1
 
 Aplicativo simples de contagem regressiva que permite ao usuário definir qual seu foco e escolher quanto tempo deseja focar na atividade, iniciando então uma contagem regressiva. Ao final do tempo o celular emite um alerta vibratório.
 Este aplicativo foi desenvolvido em React Native utilizando o Expo Framrwork.
